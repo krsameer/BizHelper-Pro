@@ -8,9 +8,9 @@
 
 ![Requests](screenshots/Requests.png)
 
-### Knowledge Base
+### KnowledgeBase
 
-![KnowledgeBase](screenshots/Knowledge Base.png)
+![KnowledgeBase](screenshots/KnowledgeBase.png)
 
 # BizHelper Pro
 
