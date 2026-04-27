@@ -16,6 +16,8 @@
 
 BizHelper Pro is split into two standalone apps so each one can be installed and started directly from its own folder.
 
+The app is live and can be visited on https://biz-helper-pro.vercel.app/
+
 ## Backend
 
 ```bash
