@@ -148,6 +148,7 @@ function App() {
   const reducedMotion = useReducedMotion();
   const { theme, toggleTheme } = useThemeMode();
   const tokens = themeTokens[theme];
+  const [motionIntensity, setMotionIntensity] = useState<'low' | 'normal' | 'high'>('normal');
   const [view, setView] = useState<View>('dashboard');
   const [toasts, setToasts] = useState<ToastState[]>([]);
 
@@ -350,7 +351,8 @@ function App() {
   }, [displayedArticles]);
 
   const currentTheme = themeTokens[theme];
-  const pageTransition = reducedMotion ? { duration: 0 } : { type: 'spring' as const, stiffness: 260, damping: 28 };
+  const motionMultiplier = motionIntensity === 'low' ? 0.7 : motionIntensity === 'high' ? 1.5 : 1;
+  const pageTransition = reducedMotion ? { duration: 0 } : { type: 'spring' as const, stiffness: 260 * motionMultiplier, damping: 28 * motionMultiplier };
   const shellStyle = {
     backgroundColor: currentTheme.background,
     color: currentTheme.text,
@@ -865,7 +867,7 @@ function App() {
 
   return (
     <motion.div
-      className="app-shell"
+      className={`app-shell motion-${motionIntensity}`}
       style={shellStyle}
       variants={shellVariants}
       initial="hidden"
@@ -881,7 +883,14 @@ function App() {
           <h2>Business productivity and support</h2>
         </div>
         <div className="topbar-actions">
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <select value={motionIntensity} onChange={(e) => setMotionIntensity(e.target.value as any)} aria-label="Motion intensity">
+                <option value="low">Motion: Low</option>
+                <option value="normal">Motion: Normal</option>
+                <option value="high">Motion: High</option>
+              </select>
+            </label>
           <nav className="nav-tabs" aria-label="Primary navigation">
             <motion.button className={view === 'dashboard' ? 'active' : ''} variants={navButtonVariants} animate={view === 'dashboard' ? 'active' : 'idle'} whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} onClick={() => setView('dashboard')}>
               Dashboard
